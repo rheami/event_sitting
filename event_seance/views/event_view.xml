@@ -2,20 +2,71 @@
 <openerp>
     <data>
 
+        <record model="ir.actions.act_window" id="seance_list_action">
+            <field name="name">Sceance</field>
+            <field name="res_model">event.seance</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create séance</p>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="seance_list_action">
+            <field name="name">Seance</field>
+            <field name="res_model">event.seance</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+        </record>
+        
+        <menuitem name="Seance" id="menu_event_event" action="seance_list_action" parent="event.event_main_menu" />
+
+        <record model="ir.ui.view" id="seance_search_view">
+            <field name="name">seance.search</field>
+            <field name="model">event.seance</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+
         <record model="ir.ui.view" id="view_event_form">
             <field name="name">Add seance</field>
             <field name="model">event.event</field>
             <field name="inherit_id" ref="event.view_event_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//notebook">
+                <xpath expr="//notebook" position="inside">
                     <page string="Seances" name="seances">
-                        <field name="seance_ids"/>
+                        <field name="seance_ids" colspan="4" nolabel="1" groups="event.group_event_manager,event.group_event_user" context="{'event_id': active_id}">
+                            <tree string="Toto" editable="bottom">
+                                <field name="name"/>
+                                <field name="description"/>
+                                <field name="date_begin_seance"/>
+                                <field name="duration"/>
+                                <field name="local"/>
+                            </tree>
+                        </field>
                     </page>
                 </xpath>
             </field>
         </record>
 
-        
+
+        <!-- calendar view -->
+        <record model="ir.ui.view" id="view_event_calendar">
+            <field name="name">event.seance.calendar</field>
+            <field name="model">event.seance</field>
+            <field name="arch" type="xml">
+                <calendar string="Calendrier Séance" date_start="date_begin_seance"
+                          date_stop="date_end_seance"
+                          color="event_id">
+                    <field name="name"/>
+                </calendar>
+            </field>
+        </record>
 
     </data>
 </openerp>

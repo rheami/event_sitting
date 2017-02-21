@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
 {
-    "name": "Multi seances in events",
+    "name": "Sitting in events",
     "summary": "Ajoute des séances aux évenements",
     "category": "Event Management",
-    "author": "Michel R.",
+    "author": "M. R.",
     "depends": [
-        "event",
-        "seance",
+        "event"
     ],
     "data": [
         "views/event_view.xml",
