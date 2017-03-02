@@ -10,40 +10,20 @@ class event_event(models.Model):
 
 
 class event_seance(models.Model):
-#    _inherits = {'event.event'}    
     _name = 'event.seance'
 
     name = fields.Char(string="Title", required=True)
-    
     # take the name from event.event_ticket_ids -> name
     #event_ticket_id = fields.Selection(related='event_id.event_ticket_ids')               # KeyError: 'event_ticket_ids'
-    
     description = fields.Char()
-       
     date_begin_seance = fields.Datetime(string='Date et heure de la séance', required=True)
-    
-    date_end_seance = fields.Datetime(string="Fin de la scéance", store=True, readonly=True,
-        compute='_get_date_end_seance')
-            
+    date_end_seance = fields.Datetime(string="Fin de la scéance", store=True, readonly=True, compute='_get_date_end_seance')
     # todo ajouter contrainte max = max variable globale
     duration = fields.Float(string='Durée', digits=(2, 2), help="En heures", default=1)
-    
     local = fields.Char()
-    
-    event_id = fields.Many2one( # evenement parent
-        'event.event',
-        ondelete='cascade',
-        string="Event",
-       # domain=[('type_id.name','ilike',"Cours")], # a tester
-        required=True)
-    
-    event_date_begin = fields.Datetime(
-        string='Date et heure debut',
-        related='event_id.date_begin')
-     
-    event_date_end = fields.Datetime(
-        string='Date et heure fin',
-        related='event_id.date_end')
+    event_id = fields.Many2one('event.event', string="Event", ondelete='cascade', required=True)  # domain=[('type_id.name','ilike',"Cours")], # a tester
+    event_date_begin = fields.Datetime(string='Date et heure debut', related='event_id.date_begin')
+    event_date_end = fields.Datetime(string='Date et heure fin', related='event_id.date_end')
      
     @api.constrains('date_begin_seance', 'event_date_begin', 'event_date_end', 'name')
     def _check_date_time(self):

@@ -3,3 +3,6 @@
 .metadata
 .settings/
 *.pyc
+.idea
+.DS_Store
+*.mo
