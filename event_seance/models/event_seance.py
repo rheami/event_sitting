@@ -7,14 +7,21 @@ class event_event(models.Model):
     _inherit = 'event.event'
             
     seance_ids = fields.One2many('event.seance', 'event_id', string="Séances", readonly=False)
-
-
+    
+ 
+class event_event_ticket(models.Model):
+    _inherit = 'event.event.ticket'
+                 
+    seance_ids = fields.One2many('event.seance', 'event_ticket_id', string="Séances", readonly=False)
+    
+    
 class event_seance(models.Model):
     _name = 'event.seance'
 
     name = fields.Char(string="Title", required=True)
-    # take the name from event.event_ticket_ids -> name
-    #event_ticket_id = fields.Selection(related='event_id.event_ticket_ids')               # KeyError: 'event_ticket_ids'
+    # take the name from event.event_ticket_ids -> select -> product -> name
+    event_ticket_id = fields.Many2one('event.event.ticket', string="Event Ticket")
+
     description = fields.Char()
     date_begin_seance = fields.Datetime(string='Date et heure de la séance', required=True)
     date_end_seance = fields.Datetime(string="Fin de la scéance", store=True, readonly=True, compute='_get_date_end_seance')
@@ -42,14 +49,4 @@ class event_seance(models.Model):
 
             begin = fields.Datetime.from_string(r.date_begin_seance)
             r.date_end_seance = begin + timedelta(hours=r.duration)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
   

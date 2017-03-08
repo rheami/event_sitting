@@ -32,7 +32,6 @@
             </field>
         </record>
 
-
         <record model="ir.ui.view" id="view_event_form">
             <field name="name">Add seance</field>
             <field name="model">event.event</field>
@@ -43,8 +42,9 @@
                         <field name="seance_ids" colspan="4" nolabel="1" groups="event.group_event_manager,event.group_event_user" context="{'event_id': active_id}">
                             <tree string="Toto" editable="bottom">
                                 <field name="name"/>
+                                <field name="event_ticket_id" domain="[('event_id', '=', context.get('event_id'))]"/>
                                 <field name="description"/>
-                                <field name="date_begin_seance"/>
+                                <field name="date_begin_seance" options='{"format":"dd MM yyyy"}'/>
                                 <field name="duration"/>
                                 <field name="local"/>
                             </tree>
@@ -53,7 +53,6 @@
                 </xpath>
             </field>
         </record>
-
 
         <!-- calendar view -->
         <record model="ir.ui.view" id="view_event_calendar">

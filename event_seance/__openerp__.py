@@ -6,7 +6,8 @@
     "category": "Event Management",
     "author": "M. R.",
     "depends": [
-        "event"
+        "event",
+        "event_sale"
     ],
     "data": [
         "views/event_view.xml",
