@@ -5,7 +5,7 @@
         <report
             id="report_event_seance"
             model="event.event"
-            string="Event"
+            string="Liste des séances"
             name="event_seance.report_seance"
             file="event_seance.report_seance"
             report_type="qweb-pdf" />
@@ -18,28 +18,7 @@
                 </t>
             </t>
         </template>
-        
-        <!-- <template id="report_seance_view">
-            <t t-call="report.html_container">
-                <t t-foreach="docs" t-as="o">
-                    <t t-call="report.external_layout"> 
-                    <div class="page">
-                        <h2 t-field="o.name"/>
-                        <p>From <span t-field="o.date_begin"/> to <span t-field="o.date_end"/></p>
-                        <h3>detail</h3>
-                        <ul>
-                            <t>
-                                <li><span t-field="o.name"/></li>
-                                <li><span t-field="o.description"/></li>
-                                <li><span t-field="o.local"/></li>
-                            </t>
-                        </ul>
-                    </div>
-                    </t>
-                </t>
-            </t>
-        </template> -->
-        
+               
         <template id="report_event_seance_document">
             <t t-call="report.external_layout">
                 <div class="page">
@@ -48,7 +27,7 @@
                         <div class="col-xs-6">
                                     <strong><span t-field="o.name"/></strong>
                                     <p t-field="o.type"/> 
-                                    (<span t-field="o.date_begin"/> > <span t-field="o.date_end"/>)
+                                    (<span t-field="o.date_begin" t-field-options='{"format": "dd/MM/yyyy"}'/> > <span t-field="o.date_end" t-field-options='{"format": "dd/MM/yyyy"}'/>)
                         </div>
                         <div class="col-xs-5 col-xs-offset-1">
                                     <div t-field="o.address_id"
@@ -62,10 +41,10 @@
                         <thead>
                             <tr>
                                 <th>Title</th>
-                                <th class="text-center">Description</th>
+                                <th>Description</th>
                                 <th class="text-center">Date begin</th>
                                 <th class="text-center">Date end</th>
-                                <th>Duration</th>
+                                <th class="text-center">Duration</th>
                                 <th class="text-center">Room</th>
                             </tr>
                         </thead>
@@ -73,10 +52,10 @@
                             <tr t-foreach="o.seance_ids" t-as="l">
                                 <td><span t-field="l.name"/></td>
                                 <td><span t-field="l.description"/></td>
-                                <td class="text-center"><span t-field= "l.date_begin_seance"/></td>
-                                <td class="text-center"><span t-field= "l.date_end_seance"/></td>
-                                <td class="text-center"><span t-field= "l.duration"/></td>
-                                <td><span t-field="l.local"/></td>
+                                <td class="text-center"><span t-field= "l.date_begin_seance" t-field-options='{"format": "dd/MM/yyyy hh:mm"}'/></td>
+                                <td class="text-center"><span t-field= "l.date_end_seance" t-field-options='{"format": "dd/MM/yyyy hh:mm"}'/></td>
+                                <td class="text-center"><span t-field= "l.duration"/> heure(s)</td>
+                                <td class="text-center"><span t-field="l.local"/></td>
                             </tr>
                         </tbody>
                         </table>
