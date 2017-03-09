@@ -2,9 +2,9 @@
 <openerp>
     <data>
 
-        <record model="ir.actions.act_window" id="seance_list_action">
+        <record model="ir.actions.act_window" id="sitting_list_action">
             <field name="name">Sceance</field>
-            <field name="res_model">event.seance</field>
+            <field name="res_model">event.sitting</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
@@ -12,18 +12,18 @@
             </field>
         </record>
         
-        <record model="ir.actions.act_window" id="seance_list_action">
-            <field name="name">Seance</field>
-            <field name="res_model">event.seance</field>
+        <record model="ir.actions.act_window" id="sitting_list_action">
+            <field name="name">sitting</field>
+            <field name="res_model">event.sitting</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar</field>
         </record>
         
-        <menuitem name="Seance" id="menu_event_event" action="seance_list_action" parent="event.event_main_menu" />
+        <menuitem name="sitting" id="menu_event_event" action="sitting_list_action" parent="event.event_main_menu" />
 
-        <record model="ir.ui.view" id="seance_search_view">
-            <field name="name">seance.search</field>
-            <field name="model">event.seance</field>
+        <record model="ir.ui.view" id="sitting_search_view">
+            <field name="name">sitting.search</field>
+            <field name="model">event.sitting</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="name"/>
@@ -33,18 +33,18 @@
         </record>
 
         <record model="ir.ui.view" id="view_event_form">
-            <field name="name">Add seance</field>
+            <field name="name">Add sitting</field>
             <field name="model">event.event</field>
             <field name="inherit_id" ref="event.view_event_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//notebook" position="inside">
-                    <page string="Seances" name="seances">
-                        <field name="seance_ids" colspan="4" nolabel="1" groups="event.group_event_manager,event.group_event_user" context="{'event_id': active_id}">
+                    <page string="sittings" name="sittings">
+                        <field name="sitting_ids" colspan="4" nolabel="1" groups="event.group_event_manager,event.group_event_user" context="{'event_id': active_id}">
                             <tree string="Toto" editable="bottom">
                                 <field name="name"/>
                                 <field name="event_ticket_id" domain="[('event_id', '=', context.get('event_id'))]"/>
                                 <field name="description"/>
-                                <field name="date_begin_seance" options='{"format":"dd MM yyyy"}'/>
+                                <field name="date_begin_sitting" options='{"format":"dd MM yyyy"}'/>
                                 <field name="duration"/>
                                 <field name="local"/>
                             </tree>
@@ -56,11 +56,11 @@
 
         <!-- calendar view -->
         <record model="ir.ui.view" id="view_event_calendar">
-            <field name="name">event.seance.calendar</field>
-            <field name="model">event.seance</field>
+            <field name="name">event.sitting.calendar</field>
+            <field name="model">event.sitting</field>
             <field name="arch" type="xml">
-                <calendar string="Calendrier Séance" date_start="date_begin_seance"
-                          date_stop="date_end_seance"
+                <calendar string="Calendrier Séance" date_start="date_begin_sitting"
+                          date_stop="date_end_sitting"
                           color="event_id">
                     <field name="name"/>
                 </calendar>

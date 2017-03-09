@@ -3,23 +3,23 @@
     <data>
     
         <report
-            id="report_event_seance"
+            id="report_event_sitting"
             model="event.event"
             string="Liste des séances"
-            name="event_seance.report_seance"
-            file="event_seance.report_seance"
+            name="event_sitting.report_sitting"
+            file="event_sitting.report_sitting"
             report_type="qweb-pdf" />
         
-        <template id="report_seance">
+        <template id="report_sitting">
             <t t-call="report.html_container">
                 <t t-foreach="doc_ids" t-as="doc_id">
                     <t t-raw="translate_doc(doc_id, doc_model, 'organizer_id.lang',
-                     'event_seance.report_event_seance_document')"/>
+                     'event_sitting.report_event_sitting_document')"/>
                 </t>
             </t>
         </template>
                
-        <template id="report_event_seance_document">
+        <template id="report_event_sitting_document">
             <t t-call="report.external_layout">
                 <div class="page">
                     <div class="oe_structure"/>
@@ -49,11 +49,11 @@
                             </tr>
                         </thead>
                         <tbody >
-                            <tr t-foreach="o.seance_ids" t-as="l">
+                            <tr t-foreach="o.sitting_ids" t-as="l">
                                 <td><span t-field="l.name"/></td>
                                 <td><span t-field="l.description"/></td>
-                                <td class="text-center"><span t-field= "l.date_begin_seance" t-field-options='{"format": "dd/MM/yyyy hh:mm"}'/></td>
-                                <td class="text-center"><span t-field= "l.date_end_seance" t-field-options='{"format": "dd/MM/yyyy hh:mm"}'/></td>
+                                <td class="text-center"><span t-field= "l.date_begin_sitting" t-field-options='{"format": "dd/MM/yyyy hh:mm"}'/></td>
+                                <td class="text-center"><span t-field= "l.date_end_sitting" t-field-options='{"format": "dd/MM/yyyy hh:mm"}'/></td>
                                 <td class="text-center"><span t-field= "l.duration"/> heure(s)</td>
                                 <td class="text-center"><span t-field="l.local"/></td>
                             </tr>
