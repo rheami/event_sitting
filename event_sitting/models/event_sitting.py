@@ -15,27 +15,27 @@ class event_event_ticket(models.Model):
 
     sitting_ids = fields.One2many('event.sitting', 'event_ticket_id', string="Séances", readonly=False)
 
-
 class event_sitting(models.Model):
     _name = 'event.sitting'
 
-    name = fields.Char(string="Title", required=True)
-    # take the name from event.event_ticket_ids -> select -> product -> name
-    event_ticket_id = fields.Many2one('event.event.ticket', string="Event Ticket")
-
+    name = fields.Char(string="Title", default="titre") # on change of ticket set ticket name
+    event_ticket_id = fields.Many2one('event.event.ticket', string="Event Ticket", required=True,)
     description = fields.Char()
     date_begin_sitting = fields.Datetime(string='Date et heure de la séance', required=True)
     date_end_sitting = fields.Datetime(string="Fin de la scéance", store=True, readonly=True,
                                        compute='_get_date_end_sitting')
-    # todo ajouter contrainte max = max variable globale
     duration = fields.Float(string='Durée', digits=(2, 2), help="En heures", default=1)
-    local = fields.Char()
-    event_id = fields.Many2one('event.event', string="Event", ondelete='cascade',
-                               required=True)  # domain=[('type_id.name','ilike',"Cours")], # a tester
+    event_id = fields.Many2one('event.event', string="Event", ondelete='cascade', required=True)
+    local_id = fields.Many2one('event.event', string="Salle ou local", required=True, domain=[('type', 'like', "Location")])
     event_date_begin = fields.Datetime(string='Date et heure debut', related='event_id.date_begin')
     event_date_end = fields.Datetime(string='Date et heure fin', related='event_id.date_end')
 
-    @api.constrains('date_begin_sitting', 'event_date_begin', 'event_date_end', 'name')
+    @api.onchange('event_ticket_id')
+    def _get_name(self):
+        if self.event_ticket_id:
+            self.name = self.event_ticket_id.name
+
+    @api.constrains('date_begin_sitting', 'event_date_begin', 'event_date_end', 'name') # todo check minutes
     def _check_date_time(self):
         if self.date_begin_sitting < self.event_date_begin:
             raise Warning(

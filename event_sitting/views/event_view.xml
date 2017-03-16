@@ -2,59 +2,58 @@
 <openerp>
     <data>
 
-        <record model="ir.actions.act_window" id="sitting_list_action">
-            <field name="name">Sceance</field>
-            <field name="res_model">event.sitting</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">Create séance</p>
-            </field>
-        </record>
-        
+        <!-- sitting actions -->
         <record model="ir.actions.act_window" id="sitting_list_action">
             <field name="name">sitting</field>
             <field name="res_model">event.sitting</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create sitting</p>
+            </field>
         </record>
         
         <menuitem name="sitting" id="menu_event_event" action="sitting_list_action" parent="event.event_main_menu" />
 
+        <!-- sitting search view -->
         <record model="ir.ui.view" id="sitting_search_view">
             <field name="name">sitting.search</field>
             <field name="model">event.sitting</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="name"/>
+                    <field name="event_ticket_id"/>
                     <field name="description"/>
                 </search>
             </field>
         </record>
 
+        <!-- event form view with sittings -->
         <record model="ir.ui.view" id="view_event_form">
             <field name="name">Add sitting</field>
             <field name="model">event.event</field>
             <field name="inherit_id" ref="event.view_event_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//notebook" position="inside">
-                    <page string="sittings" name="sittings">
-                        <field name="sitting_ids" colspan="4" nolabel="1" groups="event.group_event_manager,event.group_event_user" context="{'event_id': active_id}">
-                            <tree string="Toto" editable="bottom">
-                                <field name="name"/>
-                                <field name="event_ticket_id" domain="[('event_id', '=', context.get('event_id'))]"/>
-                                <field name="description"/>
-                                <field name="date_begin_sitting" options='{"format":"dd MM yyyy"}'/>
-                                <field name="duration"/>
-                                <field name="local"/>
-                            </tree>
-                        </field>
-                    </page>
-                </xpath>
+                <data>
+                   <xpath expr="//notebook" position="inside">
+                        <page string="sittings" name="sittings">
+                            <field name="sitting_ids" colspan="4" nolabel="1" groups="event.group_event_manager,event.group_event_user" context="{'event_id': active_id}">
+                                <tree string="Toto" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="event_ticket_id" domain="[('event_id', '=', context.get('event_id'))]"/>
+                                    <field name="description"/>
+                                    <field name="date_begin_sitting"/>
+                                    <field name="duration"/>
+                                    <field name="local_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </xpath>
+                </data>
             </field>
         </record>
 
-        <!-- calendar view -->
+        <!-- sitting calendar view -->
         <record model="ir.ui.view" id="view_event_calendar">
             <field name="name">event.sitting.calendar</field>
             <field name="model">event.sitting</field>
@@ -63,6 +62,8 @@
                           date_stop="date_end_sitting"
                           color="event_id">
                     <field name="name"/>
+                    <field name="description"/>
+                    <field name="local_id"/>
                 </calendar>
             </field>
         </record>
