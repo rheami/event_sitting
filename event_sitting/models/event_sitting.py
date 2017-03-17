@@ -7,8 +7,8 @@ from openerp.exceptions import AccessError, Warning
 class event_event(models.Model):
     _inherit = 'event.event'
 
-    sitting_ids = fields.One2many('event.sitting', 'event_id', string="Séances", readonly=False)
-
+    event_sitting_ids = fields.One2many('event.sitting', 'event_id', string="Séances", readonly=False)
+    local_sitting_ids = fields.One2many('event.sitting', 'local_id', string="Séances", readonly=False)
 
 class event_event_ticket(models.Model):
     _inherit = 'event.event.ticket'
@@ -18,22 +18,17 @@ class event_event_ticket(models.Model):
 class event_sitting(models.Model):
     _name = 'event.sitting'
 
-    name = fields.Char(string="Title", default="titre") # on change of ticket set ticket name
+    name = fields.Char(string="Title", related = 'event_ticket_id.name')
     event_ticket_id = fields.Many2one('event.event.ticket', string="Event Ticket", required=True,)
     description = fields.Char()
     date_begin_sitting = fields.Datetime(string='Date et heure de la séance', required=True)
     date_end_sitting = fields.Datetime(string="Fin de la scéance", store=True, readonly=True,
                                        compute='_get_date_end_sitting')
     duration = fields.Float(string='Durée', digits=(2, 2), help="En heures", default=1)
-    event_id = fields.Many2one('event.event', string="Event", ondelete='cascade', required=True)
+    event_id = fields.Many2one('event.event', string="Event", ondelete='cascade', required=True, domain=[('type', 'like', "Cours")])
     local_id = fields.Many2one('event.event', string="Salle ou local", required=True, domain=[('type', 'like', "Location")])
     event_date_begin = fields.Datetime(string='Date et heure debut', related='event_id.date_begin')
     event_date_end = fields.Datetime(string='Date et heure fin', related='event_id.date_end')
-
-    @api.onchange('event_ticket_id')
-    def _get_name(self):
-        if self.event_ticket_id:
-            self.name = self.event_ticket_id.name
 
     @api.constrains('date_begin_sitting', 'event_date_begin', 'event_date_end', 'name') # todo check minutes
     def _check_date_time(self):
