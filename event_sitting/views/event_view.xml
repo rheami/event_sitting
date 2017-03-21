@@ -2,19 +2,6 @@
 <openerp>
     <data>
 
-        <!-- sitting search view -->
-        <record model="ir.ui.view" id="sitting_search_view">
-            <field name="name">sitting.search</field>
-            <field name="model">event.sitting</field>
-            <field name="arch" type="xml">
-                <search>
-                    <field name="name"/>
-                    <field name="event_ticket_id"/>
-                    <field name="description"/>
-                </search>
-            </field>
-        </record>
-
         <!-- event form view with sittings -->
         <record model="ir.ui.view" id="view_event_form">
             <field name="name">Add sitting</field>
@@ -51,62 +38,6 @@
                 </data>
             </field>
         </record>
-
-        <!-- sitting calendar view 1-->
-        <record model="ir.ui.view" id="sitting_calendar_view">
-            <field name="name">event.sitting.calendar</field>
-            <field name="model">event.sitting</field>
-            <field name="arch" type="xml">
-                <calendar string="Calendrier Séance" date_start="date_begin_sitting"
-                          date_stop="date_end_sitting"
-                          color="event_id">
-                    <field name="name"/>
-                    <field name="description"/>
-                    <field name="local_id"/>
-                </calendar>
-            </field>
-        </record>
-
-        <!-- sitting calendar view 2-->
-        <record model="ir.ui.view" id="sitting_calendar_view2">
-            <field name="name">event.sitting.calendar2</field>
-            <field name="model">event.sitting</field>
-            <field name="priority" eval="17"/>
-            <field name="arch" type="xml">
-                <calendar string="Calendrier Séance" date_start="date_begin_sitting"
-                          date_stop="date_end_sitting"
-                          color="local_id">
-                    <field name="name"/>
-                    <field name="description"/>
-                    <field name="event_id"/>
-                </calendar>
-            </field>
-        </record>
-
-        <!-- default sitting actions -->
-        <!-- open the default view (in our case, the view with the highest priority, the second one) -->
-        <record model="ir.actions.act_window" id="sitting_list_action">
-            <field name="name">sitting</field>
-            <field name="res_model">event.sitting</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form,calendar</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">Create sitting</p>
-            </field>
-        </record>
-
-        <!-- other sitting actions -->
-        <!-- This action open the view we specify.-->
-        <record model="ir.actions.act_window" id="sitting_list_action2">
-            <field name="name">sitting</field>
-            <field name="res_model">event.sitting</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">calendar</field>
-            <field name="view_id" ref="sitting_calendar_view2"/>
-        </record>
-
-        <menuitem name="sitting default view" id="menu_event_sitting" action="sitting_list_action" parent="event.event_main_menu" />
-        <menuitem name="sitting other view" id="menu_event_sitting2" action="sitting_list_action2" parent="event.event_main_menu" />
 
     </data>
 </openerp>

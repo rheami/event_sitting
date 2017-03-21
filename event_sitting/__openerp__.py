@@ -11,6 +11,7 @@
     ],
     "data": [
         "views/event_view.xml",
-        "event_sitting_report.xml",
+        "views/event_sitting_view.xml",
+        "event_sitting_report.xml"
     ],
 }
