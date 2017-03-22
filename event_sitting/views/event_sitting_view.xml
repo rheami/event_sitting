@@ -20,12 +20,12 @@
             <field name="name">event.sitting.calendar</field>
             <field name="model">event.sitting</field>
             <field name="arch" type="xml">
-                <calendar string="Calendrier Séance" date_start="date_begin_sitting"
-                          date_stop="date_end_sitting"
+                <calendar string="Sitting calendar" date_start="sitting_date_begin"
+                          date_stop="sitting_date_end"
                           color="event_id">
                     <field name="name"/>
                     <field name="description"/>
-                    <field name="local_id"/>
+                    <field name="room_id"/>
                 </calendar>
             </field>
         </record>
@@ -36,9 +36,9 @@
             <field name="model">event.sitting</field>
             <field name="priority" eval="17"/>
             <field name="arch" type="xml">
-                <calendar string="Calendrier Séance" date_start="date_begin_sitting"
-                          date_stop="date_end_sitting"
-                          color="local_id">
+                <calendar string="Sitting calendar" date_start="sitting_date_begin"
+                          date_stop="sitting_date_end"
+                          color="room_id">
                     <field name="name"/>
                     <field name="description"/>
                     <field name="event_id"/>

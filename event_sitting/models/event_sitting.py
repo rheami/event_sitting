@@ -1,50 +1,53 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+
 from openerp import models, fields, api, _
-from openerp.exceptions import AccessError, Warning
+from openerp.exceptions import Warning
 
 
 class event_event(models.Model):
     _inherit = 'event.event'
 
-    event_sitting_ids = fields.One2many('event.sitting', 'event_id', string="Séances", readonly=False)
-    local_sitting_ids = fields.One2many('event.sitting', 'local_id', string="Séances", readonly=False)
+    event_sitting_ids = fields.One2many('event.sitting', 'event_id', string="Sitting", readonly=False)
+    room_sitting_ids = fields.One2many('event.sitting', 'room_id', string="Sitting", readonly=False)
+    sitting_ids = event_sitting_ids
 
 class event_event_ticket(models.Model):
     _inherit = 'event.event.ticket'
 
-    sitting_ids = fields.One2many('event.sitting', 'event_ticket_id', string="Séances", readonly=False)
+    sitting_ids = fields.One2many('event.sitting', 'event_ticket_id', string="Sitting", readonly=False)
 
 class event_sitting(models.Model):
     _name = 'event.sitting'
 
     name = fields.Char(string="Title", related = 'event_ticket_id.name')
-    event_ticket_id = fields.Many2one('event.event.ticket', string="Event Ticket", required=True,)
+    event_ticket_id = fields.Many2one('event.event.ticket', string="Event Ticket", required=True)
     description = fields.Char()
-    date_begin_sitting = fields.Datetime(string='Date et heure de la séance', required=True)
-    date_end_sitting = fields.Datetime(string="Fin de la scéance", store=True, readonly=True,
+    sitting_date_begin = fields.Datetime(string='Start of sitting', required=True)
+    sitting_date_end = fields.Datetime(string="End of sitting", store=True, readonly=True,
                                        compute='_get_date_end_sitting')
-    duration = fields.Float(string='Durée', digits=(2, 2), help="En heures", default=1)
+    duration = fields.Float(string='Duration', digits=(2, 2), help="In hours", default=1)
     event_id = fields.Many2one('event.event', string="Event", ondelete='cascade', required=True, domain=[('type', 'like', "Cours")])
-    local_id = fields.Many2one('event.event', string="Salle ou local", required=True, domain=[('type', 'like', "Location")])
-    event_date_begin = fields.Datetime(string='Date et heure debut', related='event_id.date_begin')
-    event_date_end = fields.Datetime(string='Date et heure fin', related='event_id.date_end')
+    room_id = fields.Many2one('event.event', string="Room", ondelete='cascade', required=True,
+                              domain=[('type', 'like', "Location")])
+    event_date_begin = fields.Datetime(string='Start of event', related='event_id.date_begin')
+    event_date_end = fields.Datetime(string='End of event', related='event_id.date_end')
 
-    @api.constrains('date_begin_sitting', 'event_date_begin', 'event_date_end', 'name') # todo check minutes
+    @api.constrains('sitting_date_begin', 'event_date_begin', 'event_date_end', 'name')  # todo check minutes
     def _check_date_time(self):
-        if self.date_begin_sitting < self.event_date_begin:
+        if self.sitting_date_begin < self.event_date_begin:
             raise Warning(
-                _("La date de la séance {} ne peut être avant la date de début de l'évènement.".format(self.name)))
-        if self.date_begin_sitting > self.event_date_end:
+                _("The date of the session {} can not be before the start date of the event.".format(self.name)))
+        if self.sitting_date_begin > self.event_date_end:
             raise Warning(
-                _("La date de la séance {} ne peut être après la date de fin de l'évènement.".format(self.name)))
+                _("The date of the session {} can not be after the end date of the event.".format(self.name)))
 
-    @api.depends('date_begin_sitting', 'duration')
+    @api.depends('sitting_date_begin', 'duration')
     def _get_date_end_sitting(self):
         for r in self:
-            if not (r.date_begin_sitting and r.duration):
-                r.date_end_sitting = r.date_begin_sitting
+            if not (r.sitting_date_begin and r.duration):
+                r.sitting_date_end = r.sitting_date_begin
                 continue
 
-            begin = fields.Datetime.from_string(r.date_begin_sitting)
-            r.date_end_sitting = begin + timedelta(hours=r.duration)
+            begin = fields.Datetime.from_string(r.sitting_date_begin)
+            r.sitting_date_end = begin + timedelta(hours=r.duration)

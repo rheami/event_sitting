@@ -1,0 +1,162 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* event_sitting
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-22 03:07+0000\n"
+"PO-Revision-Date: 2017-03-22 03:07+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: event_sitting
+#: model:ir.actions.act_window,help:event_sitting.sitting_list_action
+msgid "<p class=\"oe_view_nocontent_create\">Create sitting</p>\n"
+"            "
+msgstr ""
+
+#. module: event_sitting
+#: view:website:event_sitting.report_event_sitting_document
+msgid "Date begin"
+msgstr ""
+
+#. module: event_sitting
+#: view:website:event_sitting.report_event_sitting_document
+msgid "Date end"
+msgstr ""
+
+#. module: event_sitting
+#: field:event.sitting,description:0
+#: view:website:event_sitting.report_event_sitting_document
+msgid "Description"
+msgstr ""
+
+#. module: event_sitting
+#: field:event.sitting,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: event_sitting
+#: field:event.sitting,duration:0
+#: view:website:event_sitting.report_event_sitting_document
+msgid "Duration"
+msgstr ""
+
+#. module: event_sitting
+#: field:event.sitting,event_date_end:0
+msgid "End of event"
+msgstr ""
+
+#. module: event_sitting
+#: field:event.sitting,sitting_date_end:0
+msgid "End of sitting"
+msgstr ""
+
+#. module: event_sitting
+#: field:event.sitting,event_id:0
+#: model:ir.model,name:event_sitting.model_event_event
+msgid "Event"
+msgstr ""
+
+#. module: event_sitting
+#: field:event.sitting,event_ticket_id:0
+msgid "Event Ticket"
+msgstr ""
+
+#. module: event_sitting
+#: help:event.sitting,duration:0
+msgid "In hours"
+msgstr ""
+
+#. module: event_sitting
+#: field:event.sitting,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: event_sitting
+#: view:website:event_sitting.report_event_sitting_document
+msgid "Room"
+msgstr ""
+
+#. module: event_sitting
+#: field:event.event,event_sitting_ids:0
+#: field:event.event.ticket,sitting_ids:0
+msgid "Sitting"
+msgstr ""
+
+#. module: event_sitting
+#: view:event.sitting:event_sitting.sitting_calendar_view
+#: view:event.sitting:event_sitting.sitting_calendar_view2
+msgid "Sitting calendar"
+msgstr ""
+
+#. module: event_sitting
+#: model:ir.actions.report.xml,name:event_sitting.report_event_sitting
+msgid "Sitting list"
+msgstr ""
+
+#. module: event_sitting
+#: field:event.sitting,event_date_begin:0
+msgid "Start of event"
+msgstr ""
+
+#. module: event_sitting
+#: field:event.sitting,sitting_date_begin:0
+msgid "Start of sitting"
+msgstr ""
+
+#. module: event_sitting
+#: code:addons/event_sitting/models/event_sitting.py:41
+#, python-format
+msgid "The date of the session {} can not be after the end date of the event."
+msgstr ""
+
+#. module: event_sitting
+#: code:addons/event_sitting/models/event_sitting.py:38
+#, python-format
+msgid "The date of the session {} can not be before the start date of the event."
+msgstr ""
+
+#. module: event_sitting
+#: field:event.sitting,name:0
+#: view:website:event_sitting.report_event_sitting_document
+msgid "Title"
+msgstr ""
+
+#. module: event_sitting
+#: view:website:event_sitting.report_event_sitting_document
+msgid "hour(s)"
+msgstr ""
+
+#. module: event_sitting
+#: view:event.event:event_sitting.view_event_form
+msgid "room sittings"
+msgstr ""
+
+#. module: event_sitting
+#: model:ir.actions.act_window,name:event_sitting.sitting_list_action
+#: model:ir.actions.act_window,name:event_sitting.sitting_list_action2
+msgid "sitting"
+msgstr ""
+
+#. module: event_sitting
+#: model:ir.ui.menu,name:event_sitting.menu_event_sitting
+msgid "sitting default view"
+msgstr ""
+
+#. module: event_sitting
+#: model:ir.ui.menu,name:event_sitting.menu_event_sitting2
+msgid "sitting other view"
+msgstr ""
+
+#. module: event_sitting
+#: view:event.event:event_sitting.view_event_form
+msgid "sittings"
+msgstr ""
+
