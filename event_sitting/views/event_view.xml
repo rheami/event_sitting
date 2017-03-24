@@ -9,28 +9,32 @@
             <field name="inherit_id" ref="event.view_event_form"/>
             <field name="arch" type="xml">
                 <data>
-                   <xpath expr="//notebook" position="inside">
-                        <page string="sittings" name="sittings">
-                            <field name="event_sitting_ids" colspan="4" nolabel="1" groups="event.group_event_manager,event.group_event_user" context="{'event_id': active_id}">
+                    <xpath expr="//notebook" position="inside">
+                        <!--voir http://www.serpentcs.com/serpentcs-attrs-in-openerp-odoo-->
+                        <!--          attrs=”{‘invisible’: [‘|’,(‘service’,’in’,[‘OpenERP Support’,’OpenERP Training’])]}”            -->
+                        <page name="sittings" string="sittings" attrs="{'invisible': [('type', '!=', 4)]}">
+                            <field name="event_sitting_ids" colspan="4" nolabel="1"
+                                   groups="event.group_event_manager,event.group_event_user"
+                                   context="{'event_id': active_id}">
                                 <tree editable="bottom">
                                     <field name="name"/>
                                     <field name="event_ticket_id" domain="[('event_id', '=', context.get('event_id'))]"/>
                                     <field name="description"/>
                                     <field name="sitting_date_begin"/>
                                     <field name="duration"/>
-                                    <field name="room_id"/>
+                                    <field name="event_ref_id"/>
                                 </tree>
                             </field>
                         </page>
-                       <page string="room sittings" name="room sittings">
-                           <field name="room_sitting_ids" colspan="4" nolabel="1"
-                                  groups="event.group_event_manager,event.group_event_user"
-                                  context="{'event_id': active_id}">
-                               <tree editable="bottom">
+                        <page name="sittings" string="sittings" attrs="{'invisible': [('type', '!=', 5)]}">
+                            <field name="event_ref_sitting_ids" colspan="4" nolabel="1"
+                                   groups="event.group_event_manager,event.group_event_user"
+                                   context="{'event_id': active_id}">
+                                <tree editable="bottom">
                                     <field name="name"/>
                                     <field name="event_ticket_id" domain="[('event_id', '=', context.get('event_id'))]"/>
                                     <field name="description"/>
-                                   <field name="sitting_date_begin"/>
+                                    <field name="sitting_date_begin"/>
                                     <field name="duration"/>
                                     <field name="event_id"/>
                                 </tree>

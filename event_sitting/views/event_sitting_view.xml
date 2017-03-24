@@ -3,7 +3,7 @@
     <data>
 
         <!-- sitting search view -->
-        <record model="ir.ui.view" id="sitting_search_view">
+        <record id="sitting_search_view" model="ir.ui.view">
             <field name="name">sitting.search</field>
             <field name="model">event.sitting</field>
             <field name="arch" type="xml">
@@ -16,7 +16,7 @@
         </record>
 
         <!-- sitting calendar view 1-->
-        <record model="ir.ui.view" id="sitting_calendar_view">
+        <record id="sitting_calendar_view" model="ir.ui.view">
             <field name="name">event.sitting.calendar</field>
             <field name="model">event.sitting</field>
             <field name="arch" type="xml">
@@ -25,20 +25,20 @@
                           color="event_id">
                     <field name="name"/>
                     <field name="description"/>
-                    <field name="room_id"/>
+                    <field name="event_ref_id"/>
                 </calendar>
             </field>
         </record>
 
         <!-- sitting calendar view 2-->
-        <record model="ir.ui.view" id="sitting_calendar_view2">
+        <record id="sitting_calendar_view2" model="ir.ui.view">
             <field name="name">event.sitting.calendar2</field>
             <field name="model">event.sitting</field>
             <field name="priority" eval="17"/>
             <field name="arch" type="xml">
                 <calendar string="Sitting calendar" date_start="sitting_date_begin"
                           date_stop="sitting_date_end"
-                          color="room_id">
+                          color="event_ref_id">
                     <field name="name"/>
                     <field name="description"/>
                     <field name="event_id"/>
@@ -48,7 +48,7 @@
 
         <!-- default sitting actions -->
         <!-- open the default view (in our case, the view with the highest priority, the second one) -->
-        <record model="ir.actions.act_window" id="sitting_list_action">
+        <record id="sitting_list_action" model="ir.actions.act_window">
             <field name="name">sitting</field>
             <field name="res_model">event.sitting</field>
             <field name="view_type">form</field>
@@ -60,7 +60,7 @@
 
         <!-- other sitting actions -->
         <!-- This action open the view we specify.-->
-        <record model="ir.actions.act_window" id="sitting_list_action2">
+        <record id="sitting_list_action2" model="ir.actions.act_window">
             <field name="name">sitting</field>
             <field name="res_model">event.sitting</field>
             <field name="view_type">form</field>
