@@ -10,9 +10,9 @@
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="//notebook" position="inside">
-                        <!--voir http://www.serpentcs.com/serpentcs-attrs-in-openerp-odoo-->
-                        <!--          attrs=”{‘invisible’: [‘|’,(‘service’,’in’,[‘OpenERP Support’,’OpenERP Training’])]}”            -->
-                        <page name="sittings" string="sittings" attrs="{'invisible': [('type', '!=', 4)]}">
+                        <page name="sittings"
+                              string="sittings"
+                              attrs="{'invisible': [('type', 'not in', [4, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])]}">
                             <field name="event_sitting_ids" colspan="4" nolabel="1"
                                    groups="event.group_event_manager,event.group_event_user"
                                    context="{'event_id': active_id}">
