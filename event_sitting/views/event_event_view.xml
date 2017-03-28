@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
 <openerp>
     <data>
 
@@ -11,8 +12,13 @@
                 <data>
                     <xpath expr="//notebook" position="inside">
                         <page name="sittings"
-                              string="sittings"
+                              string="Sittings"
                               attrs="{'invisible': [('type', 'not in', [4, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])]}">
+                            <group>
+                                <group>
+                                    <field name="forbid_duplicates_sittings"/>
+                                </group>
+                            </group>
                             <field name="event_sitting_ids" colspan="4" nolabel="1"
                                    groups="event.group_event_manager,event.group_event_user"
                                    context="{'event_id': active_id}">
@@ -20,7 +26,9 @@
                                     <field name="name"/>
                                     <field name="event_ticket_id" domain="[('event_id', '=', context.get('event_id'))]"/>
                                     <field name="description"/>
-                                    <field name="sitting_date_begin"/>
+                                    <!--<field name="sitting_date_begin"/>-->
+                                    <field name = "sitting_date_begin" widget = "date" />
+                                    <field name = "sitting_date_begin" widget = "time" />
                                     <field name="duration"/>
                                     <field name="event_ref_id"/>
                                 </tree>
