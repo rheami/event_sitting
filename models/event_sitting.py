@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 from datetime import timedelta
-
 from openerp import models, fields, api, _
-#from openerp.exceptions import Warning
-from .. import exceptions
+from openerp import exceptions
 
 
 class EventEvent(models.Model):
@@ -12,13 +10,6 @@ class EventEvent(models.Model):
 
     event_sitting_ids = fields.One2many('event.sitting', 'event_id', string="Sitting", readonly=False)
     event_ref_sitting_ids = fields.One2many('event.sitting', 'event_ref_id', string="Sitting", readonly=False)
-    forbid_duplicates_sittings = fields.Boolean()
-
-    # @api.multi
-    # @api.constrains("forbid_duplicates_sittings", "event_sitting_ids")
-    # def _check_forbid_duplicates_sittings(self):
-    #     """Ensure no duplicated sittings are found in the event."""
-    #     return self.filtered("forbid_duplicates_sittings").event_sitting_ids._check_forbid_duplicates_sittings()
 
 
 class Event_event_ticket(models.Model):
@@ -55,35 +46,33 @@ class Event_sitting(models.Model):
     event_date_begin = fields.Datetime(string='Start of event', related='event_id.date_begin')
     event_date_end = fields.Datetime(string='End of event', related='event_id.date_end')
 
-    # @api.multi
-    # @api.constrains("event_id", "sitting_id")
-    # def _check_forbid_duplicates_sittings(self):
-    #     """Ensure no duplicated sittings are found in the event."""
-    #     for s in self.filtered("event_id.forbid_duplicates_sittings"):
-    #         dupes = self.search(s._duplicate_search_domain())
-    #         if dupes:
-    #             raise exceptions.DuplicatedSittingError(
-    #                 s.event_id.display_name,
-    #                 ", ".join(d.display_name
-    #                           for d in dupes.mapped("sitting_id")),
-    #                 sittings=dupes,
-    #             )
+    @api.multi
+    @api.constrains('sitting_date_begin', 'sitting_date_end', 'event_ref_id')
+    def _check_forbid_duplicates_sittings(self):
+        """Ensure no duplicated sittings are found in the event."""
+        for record in self:
+            dupes = self.search(record._duplicate_search_domain())
+            if dupes:
+                raise exceptions.ValidationError("Sittings at the same place and time: {} {}".format(
+                    record.event_id.display_name,
+                    ", ".join(d.display_name for d in dupes))
+                )
 
     @api.multi
     def _duplicate_search_domain(self):
         """What to look for when searching duplicates."""
-        return ['|',
-                ("sitting_id", "=", self.id),
-                #("event_ref_id", "=", self.event_ref_id.id),  # meme local + todo meme plage de temps
-                '&', # meme plage de temps :
-                ("sitting_date_begin", "<", self.sitting_date_end),
-                ("sitting_date_end", ">", self.sitting_date_begin)
+        return [#'&',
+                # meme plage de temps :
+                '&', ("sitting_date_begin", "<", self.sitting_date_end),
+                      ("sitting_date_end", ">", self.sitting_date_begin)#,
+                # meme local
+                #('event_ref_id', '=', self.event_ref_id)
         ]
 
     @api.depends('event_ticket_id', 'description')
     def _get_name(self):
         for r in self:
-            r.name = u'%s (%s)' % (r.description, r.event_ticket_id.name)
+            r.name = u'%s (%s)' % (r.description, r.event_ticket_id.name) # todo use .format instead
 
     @api.constrains('sitting_date_begin', 'event_date_begin', 'event_date_end', 'name')
     def _check_date_time(self):
